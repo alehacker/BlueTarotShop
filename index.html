@@ -1,27 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Blue Tarot Shop Booking Page</title>
-        <link rel="stylesheet" href="stylesheet.css">
-      </head>
-      <body>
-        <h1>Blue Tarot Shop Booking Page</h1>
-        <div id="calendar"></div>
-        <div id="times"></div>
-        <form>
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-          <label for="phone">Phone:</label>
-          <input type="tel" id="phone" name="phone" required>
-          <label for="date">Date:</label>
-          <input type="text" id="date" name="date" readonly required>
-          <label for="time">Time:</label>
-          <input type="text" id="time" name="time" readonly required>
-          <input type="submit" value="Book Now">
-        </form>
-        <script src="script.js"></script>
-      </body>
-    </html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blue Tarot Shop Booking</title>
+    <style>
+      /* Define styles for the calendar table */
+      table.calendar {
+        border-collapse: collapse;
+      }
+      table.calendar th,
+      table.calendar td {
+        padding: 5px;
+        text-align: center;
+        border: 1px solid black;
+      }
+      table.calendar th {
+        background-color: #ddd;
+      }
+      table.calendar td.selected {
+        background-color: #aaf;
+      }
+      /* Define styles for the booking form */
+      form {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        margin: auto;
+      }
+      label {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      input[type="date"],
+      input[type="time"] {
+        margin-bottom: 20px;
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #aaf;
+        color: white;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Blue Tarot Shop Booking</h1>
+    <table class="calendar"></table>
+    <form>
+      <label for="date">Select a date:</label>
+      <input type="date" id="date">
+      <label for="time">Select a time:</label>
+      <div id="times"></div>
+      <input type="hidden" id="selectedDate" name="selectedDate">
+      <input type="hidden" id="selectedTime" name="selectedTime">
+      <button type="submit">Book Now</button>
+    </form>
+    <script>
+      // Define the calendar logic and generate available times when a date is selected
+      function displayCalendar(year, month) {
+        // ...
+      }
+      function generateAvailableTimes(dateString) {
+        // ...
+      }
+      const calendar = document.querySelector('.calendar');
+      const dateInput = document.querySelector('#date');
+      const timeInput = document.querySelector('#selectedTime');
+      const times = document.querySelector('#times');
+      calendar.addEventListener('click', event => {
+        if (event.target.classList.contains('day')) {
+          const dateString = event.target.dataset.date;
+          generateAvailableTimes(dateString);
+        }
+      });
+      const today = new Date();
+      const currentYear = today.getFullYear();
+      const currentMonth = today.getMonth();
+      displayCalendar(currentYear, currentMonth);
+    </script>
+  </body>
+</html>

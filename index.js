@@ -71,3 +71,26 @@ function generateAvailableTimes(dateString) {
 
   // Get the available times for the selected day of the week
   const timesArray = availableTimes[dayOfWeek];
+
+  // Create buttons for each available time
+  timesArray.forEach(time => {
+    const button = document.createElement('button');
+    button.textContent = time;
+    button.addEventListener('click', () => {
+      // Highlight the selected time button and update the selected time
+      const selectedTimeButton = times.querySelector('.selected');
+      if (selectedTimeButton) {
+        selectedTimeButton.classList.remove('selected');
+      }
+      button.classList.add('selected');
+      timeInput.value = time;
+    });
+    times.appendChild(button);
+  });
+}
+
+// Call the displayCalendar function to initialize the calendar
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentMonth = today.getMonth();
+displayCalendar(currentYear, currentMonth);
