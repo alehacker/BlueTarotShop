@@ -1,85 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Blue Tarot Shop Booking</title>
-    <style>
-      /* Define styles for the calendar table */
-      table.calendar {
-        border-collapse: collapse;
-      }
-      table.calendar th,
-      table.calendar td {
-        padding: 5px;
-        text-align: center;
-        border: 1px solid black;
-      }
-      table.calendar th {
-        background-color: #ddd;
-      }
-      table.calendar td.selected {
-        background-color: #aaf;
-      }
-      /* Define styles for the booking form */
-      form {
-        display: flex;
-        flex-direction: column;
-        max-width: 400px;
-        margin: auto;
-      }
-      label {
-        font-weight: bold;
-        margin-top: 10px;
-      }
-      input[type="date"],
-      input[type="time"] {
-        margin-bottom: 20px;
-      }
-      button {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: #aaf;
-        color: white;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-      }
-    </style>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
   </head>
-  <body>
-    <h1>Blue Tarot Shop Booking</h1>
-    <table class="calendar"></table>
-    <form>
-      <label for="date">Select a date:</label>
-      <input type="date" id="date">
-      <label for="time">Select a time:</label>
-      <div id="times"></div>
-      <input type="hidden" id="selectedDate" name="selectedDate">
-      <input type="hidden" id="selectedTime" name="selectedTime">
-      <button type="submit">Book Now</button>
-    </form>
-    <script>
-      // Define the calendar logic and generate available times when a date is selected
-      function displayCalendar(year, month) {
-        // ...
-      }
-      function generateAvailableTimes(dateString) {
-        // ...
-      }
-      const calendar = document.querySelector('.calendar');
-      const dateInput = document.querySelector('#date');
-      const timeInput = document.querySelector('#selectedTime');
-      const times = document.querySelector('#times');
-      calendar.addEventListener('click', event => {
-        if (event.target.classList.contains('day')) {
-          const dateString = event.target.dataset.date;
-          generateAvailableTimes(dateString);
-        }
-      });
-      const today = new Date();
-      const currentYear = today.getFullYear();
-      const currentMonth = today.getMonth();
-      displayCalendar(currentYear, currentMonth);
-    </script>
-  </body>
+<body>
+  <h1>Blue Tarot Shop Booking</h1>
+  <table class="calendar"></table>
+  <div id="times"></div>
+</body>
 </html>

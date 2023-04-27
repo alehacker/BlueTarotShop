@@ -1,72 +1,62 @@
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  form {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  input[type="submit"] {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  input[type="submit"]:hover {
-    background-color: #3e8e41;
-  }
-  
-  #calendar {
-    margin: 20px auto;
-    max-width: 500px;
-    display: none;
-  }
 
-  #calendar.visible {
-    display: block;
-  }
-  
-  #times {
-    max-width: 500px;
-    margin: 20px auto;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  #times button {
-    margin: 5px;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #ccc;
-    cursor: pointer;
-  }
-  
-  #times button:hover {
-    background-color: #eee;
-  }
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 24px;
+  color: #000000;
+  font-weight: bold;
+  visibility: visible;
+}
+
+/* Calendar styles */
+table {
+  border-collapse: collapse;
+  margin: 20px auto;
+}
+
+td, th {
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+}
+
+th {
+  background-color: #ccc;
+}
+
+.weekend {
+  background-color: #eee;
+}
+
+.empty {
+  background-color: #fff;
+}
+
+/* Available times styles */
+#times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 5px;
+  background-color: #eee;
+  border: none;
+  cursor: pointer;
+}
+
+.available {
+  color: #000;
+}
+
+.selected {
+  color: #fff;
+  background-color: #007bff;
+}

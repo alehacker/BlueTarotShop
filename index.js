@@ -1,96 +1,108 @@
-const dateInput = document.querySelector('#date');
-const timeInput = document.querySelector('#time');
-const times = document.querySelector('#times');
+// Define the available times for each day of the week
+const availableTimes = {
+  0: ['10:00', '11:00', '12:00', '13:00', '14:00'],
+  1: ['10:00', '11:00', '12:00', '13:00', '14:00'],
+  2: ['10:00', '11:00', '12:00', '13:00', '14:00'],
+  3: ['11:00', '12:00', '13:00', '14:00', '15:00'],
+  4: ['11:00', '12:00', '13:00', '14:00', '15:00'],
+  5: ['13:00', '14:00', '15:00', '16:00', '17:00'],
+  6: ['13:00', '14:00', '15:00', '16:00', '17:00']
+};
 
+// Define the calendar logic and generate available times when a date is selected
 function displayCalendar(year, month) {
-  // Get the number of days in the month and the starting day of the month
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const startingDay = new Date(year, month, 1).getDay();
-
-  // Create a table element with headers for the days of the week
-  let table = `<table><thead><tr>`;
-  const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  weekdays.forEach(day => {
-    table += `<th>${day}</th>`;
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const daysInMonth = lastDay.getDate();
+  const firstDayOfWeek = firstDay.getDay();
+  const lastDayOfWeek = lastDay.getDay();
+  const daysBefore = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+  const daysAfter = lastDayOfWeek === 0 ? 0 : 7 - lastDayOfWeek;
+  const totalDays = daysInMonth + daysBefore + daysAfter;
+  const weeks = Math.ceil(totalDays / 7);
+  const calendar = document.querySelector('.calendar');
+  calendar.innerHTML = '';
+  const header = document.createElement('tr');
+  const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  weekdays.forEach(weekday => {
+    const th = document.createElement('th');
+    th.textContent = weekday;
+    header.appendChild(th);
   });
-  table += `</tr></thead><tbody>`;
-
-  // Add the days of the month to the table
-  let dayOfMonth = 1;
-  for (let i = 0; i < 6; i++) {
-    table += `<tr>`;
+  calendar.appendChild(header);
+  let date = 1 - daysBefore;
+  for (let i = 0; i < weeks; i++) {
+    const row = document.createElement('tr');
     for (let j = 0; j < 7; j++) {
-      if ((i === 0 && j < startingDay) || dayOfMonth > daysInMonth) {
-        // Add an empty cell for days before the starting day or after the end of the month
-        table += `<td></td>`;
+      const td = document.createElement('td');
+      td.classList.add('day');
+      if (date > 0 && date <= daysInMonth) {
+        td.textContent = date;
+        const yearString = year.toString().padStart(4, '0');
+        const monthString = (month + 1).toString().padStart(2, '0');
+        const dateString = date.toString().padStart(2, '0');
+        const isoDate = `${yearString}-${monthString}-${dateString}`;
+        td.dataset.date = isoDate;
+        if (j === 0 || j === 6) {
+          td.classList.add('weekend');
+        }
+        date++;
       } else {
-        // Add a cell with a button for each day of the month
-        const dateString = `${year}-${(month + 1).toString().padStart(2, '0')}-${dayOfMonth.toString().padStart(2, '0')}`;
-        table += `<td><button data-date="${dateString}">${dayOfMonth}</button></td>`;
-        dayOfMonth++;
+        td.classList.add('empty');
       }
+      row.appendChild(td);
     }
-    table += `</tr>`;
+    calendar.appendChild(row);
   }
-  table += `</tbody></table>`;
-
-  // Add the table to the calendar element and add click event listeners to the date buttons
-  const calendar = document.querySelector('#calendar');
-  calendar.innerHTML = table;
-  const dateButtons = document.querySelectorAll('#calendar button');
-  dateButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Highlight the selected date button and generate available times for the selected date
-      dateButtons.forEach(button => button.classList.remove('selected'));
-      button.classList.add('selected');
-      const dateString = button.getAttribute('data-date');
-      generateAvailableTimes(dateString);
-    });
-  });
 }
 
 function generateAvailableTimes(dateString) {
-  // Clear the existing times and update the selected date
-  times.innerHTML = '';
-  dateInput.value = dateString;
-
-  // Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
-  const date = new Date(dateString);
-  const dayOfWeek = date.getDay();
-
-  // Define the available times for each day of the week
-  const availableTimes = [
-    [], // Sunday
-    [], // Monday
-    ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'], // Tuesday
-    [], // Wednesday
-    ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'], // Thursday
-    [], // Friday
-    ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'] // Saturday
-  ];
-
-  // Get the available times for the selected day of the week
+  const dayOfWeek = new Date(dateString).getDay();
   const timesArray = availableTimes[dayOfWeek];
-
-  // Create buttons for each available time
+  const times = document.querySelector('#times');
+  times.innerHTML = '';
   timesArray.forEach(time => {
     const button = document.createElement('button');
     button.textContent = time;
-    button.addEventListener('click', () => {
-      // Highlight the selected time button and update the selected time
-      const selectedTimeButton = times.querySelector('.selected');
-      if (selectedTimeButton) {
-        selectedTimeButton.classList.remove('selected');
-      }
-      button.classList.add('selected');
-      timeInput.value = time;
-    });
+    button.dataset.time =
+    button.dataset.date = dateString;
+    button.dataset.time = time;
+    button.classList.add('available');
     times.appendChild(button);
   });
 }
 
-// Call the displayCalendar function to initialize the calendar
-const today = new Date();
-const currentYear = today.getFullYear();
-const currentMonth = today.getMonth();
-displayCalendar(currentYear, currentMonth);
+// Define a function to handle the click event on a day element
+function handleDayClick(event) {
+  const clickedDate = event.target.dataset.date;
+  generateAvailableTimes(clickedDate);
+}
+
+// Define a function to handle the click event on a time element
+function handleTimeClick(event) {
+  const clickedButton = event.target;
+  const selectedDateTime = clickedButton.dataset.date + ' ' + clickedButton.dataset.time;
+  const selectedDate = new Date(selectedDateTime);
+  const now = new Date();
+  if (selectedDate < now) {
+    alert('Please select a future date and time.');
+    return;
+  }
+  clickedButton.classList.remove('available');
+  clickedButton.classList.add('selected');
+  clickedButton.disabled = true;
+  alert(`You have booked a reading for ${selectedDateTime}.`);
+}
+
+// Add event listeners to the calendar and time elements
+const calendar = document.querySelector('.calendar');
+calendar.addEventListener('click', handleDayClick);
+
+const times = document.querySelector('#times');
+times.addEventListener('click', handleTimeClick);
+times.addEventListener('click', handleTimeClick);
+
+// Display the current month on load
+const now = new Date();
+displayCalendar(now.getFullYear(), now.getMonth());
+
